@@ -1,0 +1,15 @@
+import * as primary from './curriculum.js?v=unified-12';
+import * as middle from './intermediate.js?v=unified-12';
+export {note,interval,INTERVALS,staff,pitchName,shuffle,inversion} from './curriculum.js?v=unified-12';
+export const LEVELS=[{id:'primary',title:'初级',label:'初级 · C'},{id:'intermediate',title:'中级',label:'中级 · B'}];
+export const levelOf=id=>id?.startsWith('b-')?'intermediate':'primary';
+export const SKILLS=[...primary.SKILLS,...middle.SKILLS];
+export const ALL_GROUPS=[...primary.GROUPS,...middle.GROUPS];
+export const groupsFor=level=>level==='intermediate'?middle.GROUPS:primary.GROUPS;
+export const groupFor=id=>ALL_GROUPS.find(g=>g.skills.includes(id));
+export const isNewSkill=id=>levelOf(id)==='intermediate'||primary.isNewSkill(id);
+export const newLesson=id=>levelOf(id)==='intermediate'?middle.lesson(id):primary.newLesson(id);
+export const makeQuestion=(id,...args)=>levelOf(id)==='intermediate'?middle.makeQuestion(id,...args):primary.makeQuestion(id,...args);
+export const explanation=q=>q.detail||primary.explanation(q);
+export const notation=(q,opts)=>levelOf(q.skill)==='intermediate'?middle.notation(q,opts):primary.notation(q,opts);
+export const optionMarkup=(q,text)=>levelOf(q.skill)==='intermediate'?middle.optionMarkup(q,text):text;
